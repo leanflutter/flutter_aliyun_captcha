@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.learn_flutter.plugins.flutter_aliyun_captcha">
+
+    <application>
+        <activity
+            android:name=".AliyunCaptchaActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    </application>
+</manifest>
