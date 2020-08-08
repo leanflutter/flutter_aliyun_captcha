@@ -175,7 +175,9 @@
         config = Object.assign(config, {
           renderTo: "#nc",
           callback: (data) => {
-            bridgeOnSuccess(data);
+            setTimeout(() => {
+              bridgeOnSuccess(data);
+            }, 600);
           },
           error: (err) => {
             console.log(err);
