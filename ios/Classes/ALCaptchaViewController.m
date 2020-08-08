@@ -9,18 +9,20 @@
 @import WebKit;
 
 @interface ALCaptchaViewController ()<WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate>
-@property (nonatomic, strong) ALCaptchaConfigModel* configModel;
+@property (nonatomic, assign) NSString* captchaHtmlPath;
+@property (nonatomic, strong) NSString* configJsonString;
 @property (nonatomic, strong) ALCaptchaWebView* webView;
 @property (nonatomic, strong) WKWebViewConfiguration * webViewConfiguration;
 @end
 
 @implementation ALCaptchaViewController
 
-- (instancetype)initWithConfigModel:(ALCaptchaConfigModel*)configModel
+- (instancetype)initWithConfig:(NSString*)configJsonString captchaHtmlPath:(NSString*) path
 {
     self = [super init];
     if (self) {
-        self.configModel = configModel;
+        self.configJsonString = configJsonString;
+        self.captchaHtmlPath = path;
     }
     return self;
 }
@@ -44,7 +46,7 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    NSURL* url = [NSURL fileURLWithPath:self.configModel.captchaHtmlPath];
+    NSURL* url = [NSURL fileURLWithPath:self.captchaHtmlPath];
     
     if (@available(iOS 9.0, *)) {
         [self.webView loadFileURL:url allowingReadAccessToURL:url];
@@ -69,10 +71,10 @@
         // Create WKWebViewConfiguration instance
         _webViewConfiguration = [[WKWebViewConfiguration alloc]init];
         
-        WKUserContentController* userContentController = [[WKUserContentController alloc]init];
+        WKUserContentController* userContentController = [[WKUserContentController alloc] init];
         [userContentController addScriptMessageHandler:self name:@"onLoaded"];
         [userContentController addScriptMessageHandler:self name:@"onSuccess"];
-        [userContentController addScriptMessageHandler:self name:@"onFail"];
+        [userContentController addScriptMessageHandler:self name:@"onCancel"];
         
         _webViewConfiguration.userContentController = userContentController;
         
@@ -93,17 +95,17 @@
     } else if ([message.name isEqualToString:@"onSuccess"]) {
         self.onSuccess(messageBody);
         [self dismissViewControllerAnimated:NO completion:nil];
-    } else if ([message.name isEqualToString:@"onFail"]) {
-        self.onFail(messageBody);
+    } else if ([message.name isEqualToString:@"onCancel"]) {
+        self.onCancel(messageBody);
         [self dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    NSString *jsCode = [NSString stringWithFormat:@"window._verify(\"%@\");", self.configModel.appId];
+    NSString *jsCode = [NSString stringWithFormat:@"window._verify('%@');", self.configJsonString];
     [self.webView evaluateJavaScript:jsCode completionHandler:^(id response, NSError * _Nullable error) {
-        NSLog(@"completionHandler");
+        // skip
     }];
 }
 

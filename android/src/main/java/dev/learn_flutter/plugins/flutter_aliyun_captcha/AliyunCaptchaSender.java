@@ -21,7 +21,7 @@ public class AliyunCaptchaSender {
         this.listener.onSuccess(data);
     }
 
-    void onFail(String data) {
-        this.listener.onFail(data);
+    void onCancel(String data) {
+        this.listener.onCancel(data);
     }
 }

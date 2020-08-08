@@ -5,5 +5,5 @@ public interface AliyunCaptchaListener {
 
     void onSuccess(String data);
 
-    void onFail(String data);
+    void onCancel(String data);
 }

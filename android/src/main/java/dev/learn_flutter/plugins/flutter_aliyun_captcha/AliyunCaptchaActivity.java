@@ -55,11 +55,11 @@ class AliyunCaptchaJsInterface {
     }
 
     @JavascriptInterface
-    public void onFail(final String data) {
+    public void onCancel(final String data) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                AliyunCaptchaSender.getInstance().onFail(data);
+                AliyunCaptchaSender.getInstance().onCancel(data);
                 listener.onDismiss(null);
             }
         };
@@ -68,7 +68,7 @@ class AliyunCaptchaJsInterface {
 }
 
 public class AliyunCaptchaActivity extends Activity implements DialogInterface.OnDismissListener {
-    private AliyunCaptchaConfig config;
+    private String configJsonString;
 
     private WebView webView;
     private WebSettings webSettings;
@@ -78,7 +78,7 @@ public class AliyunCaptchaActivity extends Activity implements DialogInterface.O
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            String jsCode = String.format("window._verify(\"%s\");", config.appId);
+            String jsCode = String.format("window._verify('%s');", configJsonString);
             webView.evaluateJavascript(jsCode, new ValueCallback<String>() {
                 @Override
                 public void onReceiveValue(String value) {
@@ -122,8 +122,8 @@ public class AliyunCaptchaActivity extends Activity implements DialogInterface.O
         this.webView.requestFocus();
 
         Intent intent = getIntent();
-        if (intent.hasExtra("config")) {
-            this.config = (AliyunCaptchaConfig) intent.getSerializableExtra("config");
+        if (intent.hasExtra("configJsonString")) {
+            this.configJsonString = intent.getStringExtra("configJsonString");
         }
         if (intent.hasExtra("captchaHtmlPath")) {
             String captchaHtmlPath = intent.getStringExtra("captchaHtmlPath");

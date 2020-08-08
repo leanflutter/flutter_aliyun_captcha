@@ -6,7 +6,6 @@
 @implementation FlutterAliyunCaptchaPlugin {
     FlutterEventSink _eventSink;
     NSString* captchaHtmlPath;
-    NSString* appId;
 }
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -53,8 +52,6 @@
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if ([@"getSDKVersion" isEqualToString:call.method]) {
         [self handleMethodGetSDKVersion:call result:result];
-    } else if ([@"init" isEqualToString:call.method]) {
-        [self handleMethodInit:call result:result];
     } else if ([@"verify" isEqualToString:call.method]) {
         [self handleMethodVerify:call result:result];
     } else {
@@ -71,35 +68,14 @@
     result(sdkVersion);
 }
 
-- (void)handleMethodInit:(FlutterMethodCall*)call
-                  result:(FlutterResult)result
-{
-    self->appId = call.arguments[@"appId"];
-    
-    result([NSNumber numberWithBool:YES]);
-}
-
 - (void)handleMethodVerify:(FlutterMethodCall*)call
                     result:(FlutterResult)result
 {
     UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     
-    NSObject *bizState = call.arguments[@"bizState"];
-    NSNumber *enableDarkMode = call.arguments[@"enableDarkMode"];
-    NSDictionary *sdkOpts = call.arguments[@"sdkOpts"];
+    NSString *config = call.arguments[@"config"];
     
-    ALCaptchaConfigModel* configModel = [[ALCaptchaConfigModel alloc] init];
-    configModel.captchaHtmlPath = self->captchaHtmlPath;
-    configModel.appId = self->appId;
-    
-    if (bizState)
-        configModel.bizState = bizState;
-    if (enableDarkMode)
-        configModel.enableDarkMode = enableDarkMode.boolValue;
-    if (sdkOpts)
-        configModel.sdkOpts = sdkOpts;
-    
-    ALCaptchaViewController *controller = [[ALCaptchaViewController alloc] initWithConfigModel: configModel];
+    ALCaptchaViewController *controller = [[ALCaptchaViewController alloc] initWithConfig: config captchaHtmlPath:self->captchaHtmlPath];
     [controller setModalPresentationStyle: UIModalPresentationOverFullScreen];
     controller.onLoaded = ^(NSDictionary * _Nonnull data) {
         NSDictionary<NSString *, id> *eventData = @{
@@ -115,9 +91,9 @@
         };
         self->_eventSink(eventData);
     };
-    controller.onFail = ^(NSDictionary * _Nonnull data) {
+    controller.onCancel = ^(NSDictionary * _Nonnull data) {
         NSDictionary<NSString *, id> *eventData = @{
-            @"method": @"onFail",
+            @"method": @"onCancel",
             @"data": data,
         };
         self->_eventSink(eventData);

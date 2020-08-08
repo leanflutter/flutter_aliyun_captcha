@@ -146,15 +146,10 @@ public class FlutterAliyunCaptchaPlugin implements FlutterPlugin, MethodCallHand
     }
 
     private void handleMethodVerify(@NonNull MethodCall call, @NonNull final Result result) {
-        AliyunCaptchaConfig config = new AliyunCaptchaConfig();
-        config.setAppId(this.appId);
+        String configJsonString = "{}";
 
-        if (call.hasArgument("bizState"))
-            config.setBizState(call.argument("bizState"));
-        if (call.hasArgument("enableDarkMode"))
-            config.setEnableDarkMode((boolean) call.argument("enableDarkMode"));
-        if (call.hasArgument("sdkOpts"))
-            config.setSdkOpts((HashMap<String, Object>) call.argument("sdkOpts"));
+        if (call.hasArgument("config"))
+            configJsonString = call.argument("config");
 
         AliyunCaptchaSender.getInstance().listene(new AliyunCaptchaListener() {
             @Override
@@ -176,10 +171,10 @@ public class FlutterAliyunCaptchaPlugin implements FlutterPlugin, MethodCallHand
             }
 
             @Override
-            public void onFail(String msg) {
+            public void onCancel(String data) {
                 final Map<String, Object> result = new HashMap<>();
-                result.put("method", "onFail");
-                result.put("data", convertMsgToMap(msg));
+                result.put("method", "onCancel");
+                result.put("data", convertMsgToMap(data));
 
                 eventSink.success(result);
             }
@@ -187,7 +182,7 @@ public class FlutterAliyunCaptchaPlugin implements FlutterPlugin, MethodCallHand
 
         Intent intent = new Intent(activity, AliyunCaptchaActivity.class);
         intent.putExtra("captchaHtmlPath", this.captchaHtmlPath);
-        intent.putExtra("config", config);
+        intent.putExtra("configJsonString", configJsonString);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
 

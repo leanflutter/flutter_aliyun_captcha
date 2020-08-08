@@ -9,6 +9,7 @@ import 'package:flutter_aliyun_captcha/flutter_aliyun_captcha.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // 请勿将此 appKey 用于非测试场景
   AliyunCaptcha.init('FFFF0N00000000006CAB');
 
   runApp(MyApp());
@@ -51,12 +52,21 @@ class _MyAppState extends State<MyApp> {
 
   void _handleClickVerify() async {
     AliyunCaptchaConfig config = AliyunCaptchaConfig(
-      bizState: 'aliyun-captcha',
-      enableDarkMode: true,
-      sdkOpts: {
-        'width': 140,
-        'height': 140,
+      // 可根据实际需求覆盖 appKey 及 token。
+      // appKey: '<appKey>',
+      // token: '<token>',
+      scene: 'nc_register_h5',
+      isOpt: 0,
+      language: "cn",
+      timeout: 10000,
+      retryTimes: 5,
+      errorTimes: 5,
+      apimap: {
+        // 'analyze': '//a.com/nocaptcha/analyze.jsonp',
+        // 'uab_Url': '//aeu.alicdn.com/js/uac/909.js',
       },
+      bannerHidden: false,
+      initHidden: false,
     );
     await AliyunCaptcha.verify(
       config: config,
@@ -66,8 +76,8 @@ class _MyAppState extends State<MyApp> {
       onSuccess: (dynamic data) {
         _addLog('onSuccess', data);
       },
-      onFail: (dynamic data) {
-        _addLog('onFail', data);
+      onCancel: (dynamic data) {
+        _addLog('onCancel', data);
       },
     );
   }

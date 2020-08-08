@@ -4,15 +4,15 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover;"
+      content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover"
     />
 
     <style>
-      .tingle-modal * {
+      .modal * {
         box-sizing: border-box;
       }
 
-      .tingle-modal {
+      .modal {
         position: fixed;
         top: 0;
         right: 0;
@@ -31,29 +31,29 @@
 
       /* modal
       -------------------------------------------------------------- */
-      .tingle-modal__close {
+      .modal__close {
         z-index: 1000;
         padding: 0;
         min-width: 92%;
         margin-top: auto;
       }
 
-      .tingle-modal__close button {
+      .modal__close button {
         float: right;
+        padding: 0px;
         margin-bottom: 6px;
-        width: 32px;
-        height: 32px;
         border: none;
         background-color: transparent;
-        color: #fff;
         cursor: pointer;
       }
 
-      .tingle-modal__close button svg * {
+      .modal__close button img {
         fill: currentColor;
+        width: 36px;
+        height: 36px;
       }
 
-      .tingle-modal-box {
+      .modal-box {
         position: relative;
         flex-shrink: 0;
         margin-bottom: auto;
@@ -67,7 +67,7 @@
         will-change: transform, opacity;
       }
 
-      .tingle-modal-box__content {
+      .modal-box__content {
         width: 100%;
         padding-left: 12px;
         padding-right: 12px;
@@ -77,23 +77,17 @@
 
       /* state
       -------------------------------------------------------------- */
-      .tingle-modal--visible {
+      .modal--visible {
         visibility: visible;
         opacity: 1;
       }
 
-      .tingle-modal--visible .tingle-modal-box {
+      .modal--visible .modal-box {
         animation: scale 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-      }
-
-      .tingle-modal--overflow {
-        overflow-y: scroll;
-        padding-top: 8vh;
       }
 
       /* animations
       -------------------------------------------------------------- */
-
       @keyframes scale {
         0% {
           opacity: 0;
@@ -112,6 +106,9 @@
       src="https://g.alicdn.com/sd/nch5/index.js?t=2015052012"
     ></script>
     <style>
+      * {
+        -webkit-user-select: none;
+      }
       html,
       body {
         background-color: transparent;
@@ -133,20 +130,16 @@
     </style>
   </head>
   <body>
-    <div class="tingle-modal tingle-modal--visible">
-      <div type="button" class="tingle-modal__close">
-        <button>
-          <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M.3 9.7c.2.2.4.3.7.3.3 0 .5-.1.7-.3L5 6.4l3.3 3.3c.2.2.5.3.7.3.2 0 .5-.1.7-.3.4-.4.4-1 0-1.4L6.4 5l3.3-3.3c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0L5 3.6 1.7.3C1.3-.1.7-.1.3.3c-.4.4-.4 1 0 1.4L3.6 5 .3 8.3c-.4.4-.4 1 0 1.4z"
-              fill="#000"
-              fill-rule="nonzero"
-            ></path>
-          </svg>
+    <div class="modal modal--visible">
+      <div class="modal__close">
+        <button onclick="window.__model_hide()">
+          <img
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAADigAwAEAAAAAQAAADgAAAAA/m0FUAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAArNJREFUaAXtWl1TwjAQtArqo+PvcYbfzSMfT/qkv0ZAwd3Q7YQOtCm5VNpJZs47Qu5u95I2JfXuLrdcgVyBXIFcgVyBXIFcgXoFDodDQan3W3/uK88JbiR9UAfse9nW2o/t57TOcxIPiSbsgH6FvJR2RfhkcMQHEWIO5irzuNwRYZtdkUjkprC/IO/ygG1G0o/FHJBPiHKnIamk0CT3AVFbwXDLFDqapGIwJoSx1UhUJKPzaGKcRmB3M4HmsuTMsW1LoW1CEnEccGifnJ+HM6nlGnSD63qD2IPxt8d+CnsLeYMsCKwoil8B9ca1mvQpfYlpAWFMxmYOtQ0MYrBvBK+osLV0NrDZpK+aSfifmznFlF55+Sss6jPRoUAwzgHQ+KbkGkMfyKXCLfk942h8U8yo75SACSGXAAXNpGWsKFJ1ZwtgFjHquEw/xwCM8TUl0RbsGqDX+LThSPp9V8AEA5/o6zcpqXrwQJJr+WH8GsKmLUA66OakOL1qgA3Zy+YYR2ETKenbJadKAnQTyZ2jdfwjezjkLpDUUhShH/CjsKmPY/rZxAUyVgOwm0nGga0lKWLoqkjOlcv3UZ+FTvNMZ4HsVmNoJqC5FYxridbI1Z9Tdc1hWHX9Decm00JORHg96ppUn/TtbhOB5Ia50QeSq2aH9w74DONRrSs5jr/G519uqDFAY3x7IWsB0CJGErKWwCxjmZBNASgw5hLj0j6vKgErBbu+iUftZYEk0x0bAoBOtvkihEfobDxxZosip6WFOE0/tZSLufXCJ8nJNpfJs0BB7yCPEG7iM5xM7wmUJ9T43KnpRJwx4DiDMCZjM4faE4w0PxC8Co/v5YvKB5IT2tDje312huT4XoB6JP1f7GmuieNKqWLrEhGG5BoJx/tPCMmrlxPkCuQK5ArkCuQK5AqYVOAPgcsOtHsYQE0AAAAASUVORK5CYII="
+          />
         </button>
       </div>
-      <div class="tingle-modal-box">
-        <div class="tingle-modal-box__content">
+      <div class="modal-box">
+        <div class="modal-box__content">
           <div id="__nc" style="width: 100%;">
             <div id="nc"></div>
           </div>
@@ -166,55 +159,48 @@
 
       const bridgeOnLoaded = (data) => bridgeMethod("onLoaded", data);
       const bridgeOnSuccess = (data) => bridgeMethod("onSuccess", data);
-      const bridgeOnFail = (data) => bridgeMethod("onFail", data);
+      const bridgeOnCancel = (data) => bridgeMethod("onCancel", data);
 
-      const verify = (appKey) => {
-        const token = [appKey, new Date().getTime(), Math.random()].join(":");
-        var nc = NoCaptcha.init({
+      const verify = (configJsonString) => {
+        let config = JSON.parse(configJsonString);
+
+        if (!config.token) {
+          const token = [
+            config.appkey,
+            new Date().getTime(),
+            Math.random(),
+          ].join(":");
+          config = Object.assign(config, { token });
+        }
+        config = Object.assign(config, {
           renderTo: "#nc",
-          appkey: appKey,
-          scene: "nc_register_h5",
-          token: token,
-          trans: { key1: "code200" },
-          elementID: ["usernameID"],
-          is_Opt: 0,
-          language: "cn",
-          timeout: 10000,
-          retryTimes: 5,
-          errorTimes: 5,
-          inline: false,
-          apimap: {
-            // 'analyze': '//a.com/nocaptcha/analyze.jsonp',
-            // 'uab_Url': '//aeu.alicdn.com/js/uac/909.js',
-          },
-          bannerHidden: false,
-          initHidden: false,
           callback: (data) => {
-            // window.console && console.log(nc_token);
-            // window.console && console.log(data.csessionid);
-            // window.console && console.log(data.sig);
-
             bridgeOnSuccess(data);
           },
-          error: function (s) {},
+          error: (err) => {
+            console.log(err);
+          },
         });
-        NoCaptcha.setEnabled(true);
-        nc.reset(); //请务必确保这里调用一次reset()方法
 
-        NoCaptcha.upLang("cn", {
-          LOADING: "加载中...", // 加载
-          SLIDER_LABEL: "请向右滑动验证", //等待滑动
-          CHECK_Y: "验证通过", // 通过
-          ERROR_TITLE: "非常抱歉，这出错了...", // 拦截
-          CHECK_N: "验证未通过", // 准备唤醒二次验证
-          OVERLAY_INFORM: "经检测你当前操作环境存在风险，请输入验证码", // 二次验证
-          TIPS_TITLE: "验证码错误，请重新输入", // 验证码输错时的提示
-        });
+        console.log(config);
+
+        const nc = NoCaptcha.init(config);
+        NoCaptcha.setEnabled(true);
+        nc.reset();
+
+        bridgeOnLoaded({});
       };
 
       window._verify = verify;
 
-      window._verify("FFFF0N00000000006CAB");
+      window.__model_hide = () => {
+        const modal = document.getElementsByClassName("modal")[0];
+        modal.classList.remove("modal--visible");
+
+        bridgeOnCancel({});
+      };
+
+      // window._verify("FFFF0N00000000006CAB");
     </script>
   </body>
 </html>

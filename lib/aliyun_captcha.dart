@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 
 import 'aliyun_captcha_config.dart';
@@ -13,9 +15,10 @@ class AliyunCaptcha {
 
   static bool _eventChannelReadied = false;
 
+  static String sdkAppKey;
   static Function(dynamic) _verifyOnLoaded;
   static Function(dynamic) _verifyOnSuccess;
-  static Function(dynamic) _verifyOnFail;
+  static Function(dynamic) _verifyOnCancel;
 
   static Future<String> get sdkVersion async {
     final String sdkVersion =
@@ -23,28 +26,38 @@ class AliyunCaptcha {
     return sdkVersion;
   }
 
-  static Future<bool> init(String appId) async {
+  static Future<bool> init(String appKey) async {
     if (_eventChannelReadied != true) {
       _eventChannel.receiveBroadcastStream().listen(_handleVerifyOnEvent);
       _eventChannelReadied = true;
     }
 
-    return await _methodChannel.invokeMethod('init', {
-      'appId': appId,
-    });
+    sdkAppKey = appKey;
+
+    return true;
   }
 
   static Future<bool> verify({
     AliyunCaptchaConfig config,
     Function(dynamic data) onLoaded,
     Function(dynamic data) onSuccess,
-    Function(dynamic data) onFail,
+    Function(dynamic data) onCancel,
   }) async {
     _verifyOnLoaded = onLoaded;
     _verifyOnSuccess = onSuccess;
-    _verifyOnFail = onFail;
+    _verifyOnCancel = onCancel;
 
-    return await _methodChannel.invokeMethod('verify', config?.toJson());
+    if (config == null) {
+      config = new AliyunCaptchaConfig();
+    }
+
+    if (config?.appKey == null) {
+      config.appKey = sdkAppKey;
+    }
+
+    return await _methodChannel.invokeMethod('verify', {
+      'config': json.encode(config?.toJson()),
+    });
   }
 
   static _handleVerifyOnEvent(dynamic event) {
@@ -58,8 +71,8 @@ class AliyunCaptcha {
       case 'onSuccess':
         if (_verifyOnSuccess != null) _verifyOnSuccess(data);
         break;
-      case 'onFail':
-        if (_verifyOnFail != null) _verifyOnFail(data);
+      case 'onCancel':
+        if (_verifyOnCancel != null) _verifyOnCancel(data);
         break;
     }
   }

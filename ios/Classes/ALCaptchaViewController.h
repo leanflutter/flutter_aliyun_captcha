@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ALCaptchaConfigModel.h"
 #import "ALCaptchaWebView.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,11 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^ALCaptchaCallback)(NSDictionary *data);
 
 @interface ALCaptchaViewController : UIViewController
-- (instancetype)initWithConfigModel:(ALCaptchaConfigModel*)configModel;
+- (instancetype)initWithConfig:(NSString*)config captchaHtmlPath:(NSString*) path;
 
 @property (nonatomic, copy) ALCaptchaCallback onLoaded;
 @property (nonatomic, copy) ALCaptchaCallback onSuccess;
-@property (nonatomic, copy) ALCaptchaCallback onFail;
+@property (nonatomic, copy) ALCaptchaCallback onCancel;
+
 @end
 
 NS_ASSUME_NONNULL_END
