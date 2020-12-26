@@ -26,8 +26,8 @@
 ## 屏幕截图
 
 <div>
-  <img src='./screenshots/flutter_aliyun_captcha-ios-slide.png' width=280>
-  <img src='./screenshots/flutter_aliyun_captcha-ios-smart.png' width=280>
+  <img src='/screenshots/flutter_aliyun_captcha-ios-slide.png' width=280>
+  <img src='/screenshots/flutter_aliyun_captcha-ios-smart.png' width=280>
 </div>
 
 ## 快速开始
