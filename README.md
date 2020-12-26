@@ -1,6 +1,8 @@
 # flutter_aliyun_captcha
 
-适用于 Flutter 的阿里云滑动验证插件
+适用于 Flutter 的阿里云人机验证插件
+
+> 支持滑动验证及智能验证（未适配刮刮卡及滑动验证）。
 
 [![pub version][pub-image]][pub-url]
 
@@ -15,9 +17,9 @@
 - [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
   - [安装](#%E5%AE%89%E8%A3%85)
   - [用法](#%E7%94%A8%E6%B3%95)
+    - [滑动验证](#%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81)
+    - [智能验证](#%E6%99%BA%E8%83%BD%E9%AA%8C%E8%AF%81)
     - [获取 SDK 版本](#%E8%8E%B7%E5%8F%96-sdk-%E7%89%88%E6%9C%AC)
-    - [初始化 SDK](#%E5%88%9D%E5%A7%8B%E5%8C%96-sdk)
-    - [开始验证](#%E5%BC%80%E5%A7%8B%E9%AA%8C%E8%AF%81)
 - [许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -25,8 +27,8 @@
 ## 屏幕截图
 
 <div>
-  <img src='./screenshots/flutter_aliyun_captcha-android.jpeg' width=280>
-  <img src='./screenshots/flutter_aliyun_captcha-ios.png' width=280>
+  <img src='./screenshots/flutter_aliyun_captcha-ios-slide.png' width=280>
+  <img src='./screenshots/flutter_aliyun_captcha-ios-smart.png' width=280>
 </div>
 
 ## 快速开始
@@ -37,7 +39,7 @@
 
 ```yaml
 dependencies:
-  flutter_aliyun_captcha: ^0.0.1
+  flutter_aliyun_captcha: ^1.0.0
 ```
 
 您可以从命令行安装软件包：
@@ -48,52 +50,79 @@ $ flutter packages get
 
 ### 用法
 
+导入 `flutter_aliyun_captcha`
+
+```dart
+import 'package:flutter_aliyun_captcha/flutter_aliyun_captcha.dart';
+```
+
+#### 滑动验证
+
+> `AliyunCaptchaButton` 会根据其上层小部件的尺寸自适应，务必在上层小部件设置宽度和高度。
+
+```dart
+Container(
+  width: double.infinity,
+  height: 48,
+  margin: EdgeInsets.only(
+    top: 10,
+    bottom: 10,
+    left: 16,
+    right: 16,
+  ),
+  child: AliyunCaptchaButton(
+    controller: _captchaController,
+    type: AliyunCaptchaType.slide, // 重要：请设置正确的类型
+    option: AliyunCaptchaOption(
+      appKey: '<appKey>',
+      scene: 'scene',
+      language: 'cn',
+      // 更多参数请参见：https://help.aliyun.com/document_detail/193141.html
+    ),
+    onSuccess: (dynamic data) {
+      // {"sig": "...", "token": "..."}
+      _addLog('onSuccess', data);
+    },
+    onFailure: (String failCode) {
+      _addLog('onFailure', 'failCode: $failCode');
+    },
+    onError: (String errorCode) {
+      _addLog('onError', 'errorCode: $errorCode');
+    },
+  ),
+)
+```
+
+#### 智能验证
+
+```dart
+AliyunCaptchaButton(
+    controller: _captchaController,
+    type: AliyunCaptchaType.smart, // 重要：请设置正确的类型
+    option: AliyunCaptchaOption(
+      appKey: '<appKey>',
+      scene: 'scene',
+      language: 'cn',
+      // 更多参数请参见：https://help.aliyun.com/document_detail/193144.html
+    ),
+    onSuccess: (dynamic data) {
+      // {"sig": "...", "token": "..."}
+      _addLog('onSuccess', data);
+    },
+    onFailure: (String failCode) {
+      _addLog('onFailure', 'failCode: $failCode');
+    },
+    onError: (String errorCode) {
+      _addLog('onError', 'errorCode: $errorCode');
+    },
+  ),
+)
+```
+
 #### 获取 SDK 版本
 
 ```dart
 String sdkVersion = await AliyunCaptcha.sdkVersion;
-```
-
-#### 初始化 SDK
-
-```dart
-AliyunCaptcha.init('<appKey>');
-```
-
-#### 开始验证
-
-> 详细参数请参见：https://help.aliyun.com/document_detail/121898.html
-
-```dart
-AliyunCaptchaConfig config = AliyunCaptchaConfig(
-  // 可根据实际需求覆盖 appKey 及 token。
-  // appKey: '<appKey>',
-  // token: '<token>',
-  scene: 'nc_register_h5',
-  isOpt: 0,
-  language: "cn",
-  timeout: 10000,
-  retryTimes: 5,
-  errorTimes: 5,
-  apimap: {
-    // 'analyze': '//a.com/nocaptcha/analyze.jsonp',
-    // 'uab_Url': '//aeu.alicdn.com/js/uac/909.js',
-  },
-  // bannerHidden: false,
-  // initHidden: false,
-);
-await AliyunCaptcha.verify(
-  config: config,
-  onLoaded: (dynamic data) {
-    _addLog('onLoaded', data);
-  },
-  onSuccess: (dynamic data) {
-    _addLog('onSuccess', data);
-  },
-  onCancel: (dynamic data) {
-    _addLog('onCancel', data);
-  },
-);
 ```
 
 ## 许可证
@@ -101,7 +130,7 @@ await AliyunCaptcha.verify(
 ```
 MIT License
 
-Copyright (c) 2020 LiJianying <lijy91@foxmail.com>
+Copyright (c) 2019-2020 LiJianying <lijy91@foxmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

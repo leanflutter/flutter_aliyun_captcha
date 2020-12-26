@@ -1,5 +1,5 @@
 #import <Flutter/Flutter.h>
-#import "ALCaptchaViewController.h"
+#import "FlutterAliyunCaptchaButton.h"
 
-@interface FlutterAliyunCaptchaPlugin : NSObject<FlutterPlugin, FlutterStreamHandler>
+@interface FlutterAliyunCaptchaPlugin : NSObject<FlutterPlugin>
 @end

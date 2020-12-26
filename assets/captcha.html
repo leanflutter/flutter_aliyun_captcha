@@ -1,151 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover"
     />
-
+    <script src="https://g.alicdn.com/AWSC/AWSC/awsc.js"></script>
     <style>
-      .modal * {
-        box-sizing: border-box;
-      }
-
-      .modal {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        display: flex;
-        visibility: hidden;
-        flex-direction: column;
-        align-items: center;
-        overflow: hidden;
-        -webkit-overflow-scrolling: touch;
-        background: rgba(0, 0, 0, 0.6);
-        opacity: 0;
-      }
-
-      /* modal
-      -------------------------------------------------------------- */
-      .modal__close {
-        z-index: 1000;
-        padding: 0;
-        min-width: 92%;
-        margin-top: auto;
-      }
-
-      .modal__close button {
-        float: right;
-        padding: 0px;
-        margin-bottom: 6px;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-      }
-
-      .modal__close button img {
-        fill: currentColor;
-        width: 36px;
-        height: 36px;
-      }
-
-      .modal-box {
-        position: relative;
-        flex-shrink: 0;
-        margin-bottom: auto;
-        min-width: 92%;
-        margin-left: 16px;
-        margin-right: 16px;
-        border-radius: 4px;
-        background: #fff;
-        opacity: 1;
-        cursor: auto;
-        will-change: transform, opacity;
-      }
-
-      .modal-box__content {
-        width: 100%;
-        padding-left: 12px;
-        padding-right: 12px;
-        padding-top: 24px;
-        padding-bottom: 20px;
-      }
-
-      /* state
-      -------------------------------------------------------------- */
-      .modal--visible {
-        visibility: visible;
-        opacity: 1;
-      }
-
-      .modal--visible .modal-box {
-        animation: scale 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-      }
-
-      /* animations
-      -------------------------------------------------------------- */
-      @keyframes scale {
-        0% {
-          opacity: 0;
-          transform: scale(0.9);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-    </style>
-
-    <script
-      type="text/javascript"
-      charset="utf-8"
-      src="https://g.alicdn.com/sd/nch5/index.js?t=2015052012"
-    ></script>
-    <style>
-      * {
-        -webkit-user-select: none;
+      *:not(input, textarea) {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none; /* Disable selection/Copy of UIWebView */
       }
       html,
       body {
-        background-color: transparent;
-        margin: 0;
-        padding: 0;
+        margin: 0px;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+          "Helvetica Neue", sans-serif;
       }
-      @font-face {
-        font-family: "nc-iconfont";
-        src: url("https://at.alicdn.com/t/font_skgl4wg07pgv6lxr.eot");
-        src: url("https://at.alicdn.com/t/font_skgl4wg07pgv6lxr.eot?#iefix")
-            format("embedded-opentype"),
-          url("https://at.alicdn.com/t/font_skgl4wg07pgv6lxr.woff")
-            format("woff"),
-          url("https://at.alicdn.com/t/font_skgl4wg07pgv6lxr.ttf")
-            format("truetype"),
-          url("https://at.alicdn.com/t/font_skgl4wg07pgv6lxr.svg#iconfont")
-            format("svg");
+      .sm-btn-default:hover,
+      .sm-btn-success:hover,
+      .sm-btn-loading:hover,
+      .sm-btn-fail:hover {
+        -moz-box-shadow: 0px 0px 0px #ffffff !important;
+        -webkit-box-shadow: 0px 0px 0px #ffffff !important;
+        box-shadow: 0px 0px 0px #ffffff !important;
       }
     </style>
   </head>
   <body>
-    <div class="modal modal--visible">
-      <div class="modal__close">
-        <button onclick="window.__model_hide()">
-          <img
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAADigAwAEAAAAAQAAADgAAAAA/m0FUAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAArNJREFUaAXtWl1TwjAQtArqo+PvcYbfzSMfT/qkv0ZAwd3Q7YQOtCm5VNpJZs47Qu5u95I2JfXuLrdcgVyBXIFcgVyBXIFcgXoFDodDQan3W3/uK88JbiR9UAfse9nW2o/t57TOcxIPiSbsgH6FvJR2RfhkcMQHEWIO5irzuNwRYZtdkUjkprC/IO/ygG1G0o/FHJBPiHKnIamk0CT3AVFbwXDLFDqapGIwJoSx1UhUJKPzaGKcRmB3M4HmsuTMsW1LoW1CEnEccGifnJ+HM6nlGnSD63qD2IPxt8d+CnsLeYMsCKwoil8B9ca1mvQpfYlpAWFMxmYOtQ0MYrBvBK+osLV0NrDZpK+aSfifmznFlF55+Sss6jPRoUAwzgHQ+KbkGkMfyKXCLfk942h8U8yo75SACSGXAAXNpGWsKFJ1ZwtgFjHquEw/xwCM8TUl0RbsGqDX+LThSPp9V8AEA5/o6zcpqXrwQJJr+WH8GsKmLUA66OakOL1qgA3Zy+YYR2ETKenbJadKAnQTyZ2jdfwjezjkLpDUUhShH/CjsKmPY/rZxAUyVgOwm0nGga0lKWLoqkjOlcv3UZ+FTvNMZ4HsVmNoJqC5FYxridbI1Z9Tdc1hWHX9Decm00JORHg96ppUn/TtbhOB5Ia50QeSq2aH9w74DONRrSs5jr/G519uqDFAY3x7IWsB0CJGErKWwCxjmZBNASgw5hLj0j6vKgErBbu+iUftZYEk0x0bAoBOtvkihEfobDxxZosip6WFOE0/tZSLufXCJ8nJNpfJs0BB7yCPEG7iM5xM7wmUJ9T43KnpRJwx4DiDMCZjM4faE4w0PxC8Co/v5YvKB5IT2tDje312huT4XoB6JP1f7GmuieNKqWLrEhGG5BoJx/tPCMmrlxPkCuQK5ArkCuQK5AqYVOAPgcsOtHsYQE0AAAAASUVORK5CYII="
-          />
-        </button>
-      </div>
-      <div class="modal-box">
-        <div class="modal-box__content">
-          <div id="__nc" style="width: 100%;">
-            <div id="nc"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="captcha_button"></div>
     <script type="text/javascript">
       const bridgeMethod = (method, data) => {
         if (window.webkit) {
@@ -157,50 +46,54 @@
         }
       };
 
-      const bridgeOnLoaded = (data) => bridgeMethod("onLoaded", data);
       const bridgeOnSuccess = (data) => bridgeMethod("onSuccess", data);
-      const bridgeOnCancel = (data) => bridgeMethod("onCancel", data);
+      const bridgeOnFailure = (data) => bridgeMethod("onFailure", data);
+      const bridgeOnError = (data) => bridgeMethod("onError", data);
 
-      const verify = (configJsonString) => {
-        let config = JSON.parse(configJsonString);
-
-        if (!config.token) {
-          const token = [
-            config.appkey,
-            new Date().getTime(),
-            Math.random(),
-          ].join(":");
-          config = Object.assign(config, { token });
-        }
-        config = Object.assign(config, {
-          renderTo: "#nc",
-          callback: (data) => {
-            setTimeout(() => {
-              bridgeOnSuccess(data);
-            }, 600);
+      const init = (type, size = {}, optionJsonString) => {
+        let option = JSON.parse(optionJsonString);
+        option = Object.assign(option, size, {
+          renderTo: "captcha_button",
+          success: (data) => {
+            bridgeOnSuccess(data);
           },
-          error: (err) => {
-            console.log(err);
+          fail: (failCode) => {
+            bridgeOnFailure({ failCode });
+          },
+          error: (errorCode) => {
+            bridgeOnError({ errorCode });
           },
         });
+        if (type === "ic" && option.width && option.height) {
+          option.width -= 2;
+          option.height -= 2;
+        }
 
-        console.log(config);
+        AWSC.use(type, (state, module) => {
+          window.captcha_button = module.init(option);
+        });
 
-        const nc = NoCaptcha.init(config);
-        NoCaptcha.setEnabled(true);
-        nc.reset();
-
-        bridgeOnLoaded({});
+        const styleNode = document.createElement("style");
+        const styleText = document.createTextNode(`
+          .nc_scale {
+            height: ${option.height}px !important;
+          }
+          .nc_scale span {
+            height: ${option.height - 2}px !important;
+            line-height: ${option.height - 2}px !important;
+          }
+          .nc-container .nc_wrapper .errloading {
+            padding: 0px 5px;
+            height: ${option.height - 2}px !important;
+            line-height: ${option.height - 2}px !important;
+          }
+        `);
+        styleNode.type = "text/css";
+        styleNode.appendChild(styleText);
+        document.getElementsByTagName("body")[0].appendChild(styleNode);
       };
 
-      window._verify = verify;
-
-      window.__model_hide = () => {
-        const modal = document.getElementsByClassName("modal")[0];
-        modal.classList.remove("modal--visible");
-
-        bridgeOnCancel({});
-      };
+      window._init = init;
     </script>
   </body>
 </html>

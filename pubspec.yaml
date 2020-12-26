@@ -1,12 +1,12 @@
 name: flutter_aliyun_captcha
-description: 适用于 Flutter 的阿里云滑动验证插件
-version: 0.0.1
+description: 适用于 Flutter 的阿里云人机验证插件
+version: 1.0.0
 author: LiJianying <lijy91@foxmail.com>
 homepage: https://github.com/learn-flutter-dev/flutter_aliyun_captcha
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.10.0"
+  flutter: ">=1.20.0"
 
 dependencies:
   flutter:
@@ -28,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: dev.learn_flutter.plugins.flutter_aliyun_captcha
+        package: org.leanflutter.plugins.flutter_aliyun_captcha
         pluginClass: FlutterAliyunCaptchaPlugin
       ios:
         pluginClass: FlutterAliyunCaptchaPlugin

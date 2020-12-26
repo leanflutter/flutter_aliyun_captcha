@@ -1,4 +1,4 @@
-package dev.learn_flutter.plugins.flutter_aliyun_captcha;
+package org.leanflutter.plugins.flutter_aliyun_captcha;
 
 public class AliyunCaptchaSender {
     private static AliyunCaptchaSender instance = new AliyunCaptchaSender();
@@ -13,15 +13,15 @@ public class AliyunCaptchaSender {
         this.listener = listener;
     }
 
-    void onLoaded(String data) {
-        this.listener.onLoaded(data);
-    }
-
     void onSuccess(String data) {
         this.listener.onSuccess(data);
     }
 
-    void onCancel(String data) {
-        this.listener.onCancel(data);
+    void onFailure(String data) {
+        this.listener.onFailure(data);
+    }
+
+    void onError(String data) {
+        this.listener.onError(data);
     }
 }
