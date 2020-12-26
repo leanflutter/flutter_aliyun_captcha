@@ -2,7 +2,7 @@
 
 适用于 Flutter 的阿里云人机验证插件
 
-> 支持滑动验证及智能验证（未适配刮刮卡及滑动验证）。
+> 支持滑动验证、智能验证（智能验证暂不支持刮刮卡等形式）。
 
 [![pub version][pub-image]][pub-url]
 
@@ -11,7 +11,6 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [屏幕截图](#%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE)
 - [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
