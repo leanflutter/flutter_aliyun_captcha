@@ -215,9 +215,8 @@
 
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    NSString *jsCode = [NSString stringWithFormat:@"window._init('%@', {\"width\":%f,\"height\":%f}, '%@');",
+    NSString *jsCode = [NSString stringWithFormat:@"window._init('%@', {\"height\":%f}, '%@');",
                         self.captchaType,
-                        self.frame.size.width,
                         self.frame.size.height ,
                         self.captchaOptionJsonString];
     [self.webView evaluateJavaScript:jsCode completionHandler:^(id response, NSError * _Nullable error) {

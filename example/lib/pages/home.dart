@@ -238,8 +238,9 @@ class _HomePageState extends State<HomePage> {
                   Divider(height: 0, indent: 16, endIndent: 16),
                   SizedBox(height: 10),
                   Container(
-                    width: double.infinity,
-                    height: 48,
+                    // width: double.infinity,
+                    width: 280,
+                    height: 44,
                     margin: EdgeInsets.only(
                       top: 10,
                       bottom: 10,

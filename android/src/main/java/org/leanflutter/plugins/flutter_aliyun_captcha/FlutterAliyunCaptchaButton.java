@@ -91,12 +91,10 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
 
             final float scale = webView.getContext().getResources().getDisplayMetrics().density;
 
-            int widgetWidth = (int) (containerView.getMeasuredWidth() / scale);
             int widgetHeight = (int) (containerView.getMeasuredHeight() / scale);
 
-            String jsCode = String.format("window._init('%s', {\"width\":%d,\"height\":%d}, '%s');",
+            String jsCode = String.format("window._init('%s', {\"height\":%d}, '%s');",
                     captchaType,
-                    widgetWidth,
                     widgetHeight,
                     captchaOptionJsonString
             );
