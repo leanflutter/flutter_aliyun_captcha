@@ -26,8 +26,8 @@
 ## 屏幕截图
 
 <div>
-  <img src='/screenshots/flutter_aliyun_captcha-ios-slide.png' width=280>
-  <img src='/screenshots/flutter_aliyun_captcha-ios-smart.png' width=280>
+  <img src='https://github.com/leanflutter/flutter_aliyun_captcha/raw/master/screenshots/flutter_aliyun_captcha-ios-slide.png' width=280>
+  <img src='https://github.com/leanflutter/flutter_aliyun_captcha/raw/master/screenshots/flutter_aliyun_captcha-ios-smart.png' width=280>
 </div>
 
 ## 快速开始
@@ -38,7 +38,7 @@
 
 ```yaml
 dependencies:
-  flutter_aliyun_captcha: ^1.0.0
+  flutter_aliyun_captcha: ^1.0.2
 ```
 
 您可以从命令行安装软件包：
@@ -129,7 +129,7 @@ String sdkVersion = await AliyunCaptcha.sdkVersion;
 ```
 MIT License
 
-Copyright (c) 2019-2020 LiJianying <lijy91@foxmail.com>
+Copyright (c) 2020 LiJianying <lijy91@foxmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

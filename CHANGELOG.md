@@ -1,3 +1,7 @@
+## 1.0.2
+
+- [#7](https://github.com/leanflutter/flutter_aliyun_captcha/issues/7) 修复部分机型弹出安全键盘后验证按钮消失的问题
+
 ## 1.0.1
 
 - 验证按钮宽度支持自适应
