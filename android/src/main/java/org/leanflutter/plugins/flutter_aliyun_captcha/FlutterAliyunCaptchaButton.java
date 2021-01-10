@@ -157,8 +157,6 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
         if (params.containsKey("optionJsonString"))
             this.captchaOptionJsonString = (String) params.get("optionJsonString");
 
-        this.webView.loadUrl("file:///android_asset/" + this.captchaHtmlPath);
-
         AliyunCaptchaSender.getInstance().listene(new AliyunCaptchaListener() {
             @Override
             public void onSuccess(String data) {
@@ -221,12 +219,13 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
     }
 
     private void refresh(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-        Map<String, Object> params = (Map<String, Object>) call.arguments;
-        if (params.containsKey("type"))
-            this.captchaType = (String) params.get("type");
-        if (params.containsKey("optionJsonString"))
-            this.captchaOptionJsonString = (String) params.get("optionJsonString");
-
+        if (call.arguments != null) {
+            Map<String, Object> params = (Map<String, Object>) call.arguments;
+            if (params.containsKey("type"))
+                this.captchaType = (String) params.get("type");
+            if (params.containsKey("optionJsonString"))
+                this.captchaOptionJsonString = (String) params.get("optionJsonString");
+        }
         this.webView.loadUrl("file:///android_asset/" + this.captchaHtmlPath);
         result.success(true);
     }

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import 'aliyun_captcha_controller.dart';
@@ -35,6 +38,17 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
   GlobalKey _captchaButtonKey = GlobalKey();
 
   EventChannel _eventChannel;
+  AliyunCaptchaController _captchaController;
+
+  AliyunCaptchaController get captchaController {
+    if (widget.controller != null) {
+      return widget.controller;
+    }
+    if (_captchaController == null) {
+      _captchaController = AliyunCaptchaController();
+    }
+    return _captchaController;
+  }
 
   @override
   void didUpdateWidget(oldWidget) {
@@ -42,9 +56,7 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
 
     if (oldWidget.type != widget.type ||
         json.encode(oldWidget.option) != json.encode(widget.option)) {
-      if (widget.controller != null) {
-        widget.controller.refresh(creationParams);
-      }
+      captchaController.refresh(creationParams);
     }
   }
 
@@ -81,22 +93,49 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
   }
 
   void _onPlatformViewCreated(int viewId) {
-    if (widget.controller != null) {
-      widget.controller.initWithViewId(viewId);
+    if (captchaController != null) {
+      captchaController.initWithViewId(viewId);
     }
     _eventChannel = EventChannel(
       '${kAliyunCaptchaButtonEventChannelName}_$viewId',
     );
     _eventChannel.receiveBroadcastStream().listen(_handleOnEvent);
+
+    Future.delayed(Duration(milliseconds: 10))
+        .then((value) => captchaController.refresh(null));
   }
 
   Widget _buildNativeView(BuildContext context) {
     if (Platform.isAndroid) {
-      return AndroidView(
+      return PlatformViewLink(
         viewType: kAliyunCaptchaButtonViewType,
-        onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: creationParams,
-        creationParamsCodec: const StandardMessageCodec(),
+        surfaceFactory: (
+          BuildContext context,
+          PlatformViewController controller,
+        ) {
+          return AndroidViewSurface(
+            controller: controller as AndroidViewController,
+            gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+            hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+          );
+        },
+        onCreatePlatformView: (PlatformViewCreationParams params) {
+          return PlatformViewsService.initSurfaceAndroidView(
+            id: params.id,
+            viewType: kAliyunCaptchaButtonViewType,
+            layoutDirection: TextDirection.ltr,
+            creationParams: creationParams,
+            creationParamsCodec: const StandardMessageCodec(),
+          )
+            ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+            ..addOnPlatformViewCreatedListener((int id) {
+              if (_onPlatformViewCreated == null) {
+                return;
+              }
+              _onPlatformViewCreated(params.id);
+            })
+            ..create();
+        },
       );
     } else if (Platform.isIOS) {
       return UiKitView(

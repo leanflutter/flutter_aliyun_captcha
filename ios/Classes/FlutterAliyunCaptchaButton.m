@@ -165,8 +165,6 @@
     [super layoutSubviews];
     if (self.webView != nil) {
         self.webView.frame = self.frame;
-        
-        [self refresh:nil];
     }
 }
 
