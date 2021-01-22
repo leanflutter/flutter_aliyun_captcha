@@ -63,6 +63,6 @@ public class FlutterAliyunCaptchaPlugin implements FlutterPlugin, MethodCallHand
     }
 
     private void getSDKVersion(@NonNull MethodCall call, @NonNull Result result) {
-        result.success("1.0.0");
+        result.success("1.0.3");
     }
 }
