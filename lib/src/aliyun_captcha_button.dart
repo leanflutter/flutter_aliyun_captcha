@@ -16,6 +16,7 @@ class AliyunCaptchaButton extends StatefulWidget {
   final AliyunCaptchaController controller;
   final AliyunCaptchaType type;
   final AliyunCaptchaOption option;
+  final String customStyle;
   final Function(dynamic data) onSuccess;
   final Function(String failCode) onFailure;
   final Function(String errorCode) onError;
@@ -25,6 +26,7 @@ class AliyunCaptchaButton extends StatefulWidget {
     this.controller,
     this.type,
     this.option,
+    this.customStyle,
     this.onSuccess,
     this.onFailure,
     this.onError,
@@ -55,7 +57,8 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.type != widget.type ||
-        json.encode(oldWidget.option) != json.encode(widget.option)) {
+        json.encode(oldWidget.option) != json.encode(widget.option) ||
+        oldWidget.customStyle != widget.customStyle) {
       captchaController.refresh(creationParams);
     }
   }
@@ -65,6 +68,7 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
     Map<String, dynamic> creationParams = {
       'type': widget.type.toValue(),
       'optionJsonString': json.encode(option),
+      'customStyle': widget.customStyle,
     };
     return creationParams;
   }
@@ -101,7 +105,7 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
     );
     _eventChannel.receiveBroadcastStream().listen(_handleOnEvent);
 
-    Future.delayed(Duration(milliseconds: 10))
+    Future.delayed(Duration(milliseconds: 20))
         .then((value) => captchaController.refresh(null));
   }
 

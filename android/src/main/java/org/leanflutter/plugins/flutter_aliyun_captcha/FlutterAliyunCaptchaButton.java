@@ -79,6 +79,7 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
     private String captchaHtmlPath;
     private String captchaType;
     private String captchaOptionJsonString;
+    private String captchaCustomStyle;
 
     private FrameLayout containerView;
     private WebView webView;
@@ -93,10 +94,11 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
 
             int widgetHeight = (int) (containerView.getMeasuredHeight() / scale);
 
-            String jsCode = String.format("window._init('%s', {\"height\":%d}, '%s');",
+            String jsCode = String.format("window._init('%s', {\"height\":%d}, '%s', `%s`);",
                     captchaType,
                     widgetHeight,
-                    captchaOptionJsonString
+                    captchaOptionJsonString,
+                    captchaCustomStyle
             );
             webView.evaluateJavascript(jsCode, new ValueCallback<String>() {
                 @Override
@@ -156,6 +158,8 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
             this.captchaType = (String) params.get("type");
         if (params.containsKey("optionJsonString"))
             this.captchaOptionJsonString = (String) params.get("optionJsonString");
+        if (params.containsKey("customStyle"))
+            this.captchaCustomStyle = (String) params.get("customStyle");
 
         AliyunCaptchaSender.getInstance().listene(new AliyunCaptchaListener() {
             @Override
@@ -225,6 +229,8 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
                 this.captchaType = (String) params.get("type");
             if (params.containsKey("optionJsonString"))
                 this.captchaOptionJsonString = (String) params.get("optionJsonString");
+            if (params.containsKey("customStyle"))
+                this.captchaCustomStyle = (String) params.get("customStyle");
         }
         this.webView.loadUrl("file:///android_asset/" + this.captchaHtmlPath);
         result.success(true);

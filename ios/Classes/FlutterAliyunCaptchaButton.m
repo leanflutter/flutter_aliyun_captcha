@@ -157,6 +157,7 @@
         self.captchaHtmlPath = captchaHtmlPath;
         self.captchaType = args[@"type"];
         self.captchaOptionJsonString = args[@"optionJsonString"];
+        self.captchaCustomStyle = args[@"customStyle"];
     }
     return self;
 }
@@ -172,6 +173,7 @@
     if (args != nil) {
         self.captchaType = args[@"type"];
         self.captchaOptionJsonString = args[@"optionJsonString"];
+        self.captchaCustomStyle = args[@"customStyle"];
     }
     
     NSURL* url = [NSURL fileURLWithPath:self.captchaHtmlPath];
@@ -213,10 +215,11 @@
 
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    NSString *jsCode = [NSString stringWithFormat:@"window._init('%@', {\"height\":%f}, '%@');",
+    NSString *jsCode = [NSString stringWithFormat:@"window._init('%@', {\"height\":%f}, '%@', `%@`);",
                         self.captchaType,
-                        self.frame.size.height ,
-                        self.captchaOptionJsonString];
+                        self.frame.size.height,
+                        self.captchaOptionJsonString,
+                        self.captchaCustomStyle];
     [self.webView evaluateJavaScript:jsCode completionHandler:^(id response, NSError * _Nullable error) {
         // skip
     }];

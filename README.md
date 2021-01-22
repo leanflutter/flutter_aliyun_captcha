@@ -78,6 +78,27 @@ Container(
       language: 'cn',
       // 更多参数请参见：https://help.aliyun.com/document_detail/193141.html
     ),
+    customStyle: '''
+      .nc_scale {
+        background: #eeeeee !important;
+        /* 默认背景色 */
+      }
+
+      .nc_scale div.nc_bg {
+        background: #4696ec !important;
+        /* 滑过时的背景色 */
+      }
+
+      .nc_scale .scale_text2 {
+        color: #fff !important;
+        /* 滑过时的字体颜色 */
+      }
+
+      .errloading {
+        border: #ff0000 1px solid !important;
+        color: #ef9f06 !important;
+      }
+    ''',
     onSuccess: (dynamic data) {
       // {"sig": "...", "token": "..."}
       _addLog('onSuccess', data);

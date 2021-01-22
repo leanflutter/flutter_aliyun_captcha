@@ -33,6 +33,7 @@ viewIdentifier:(int64_t)viewId
 @property (nonatomic, strong) NSString* captchaHtmlPath;
 @property (nonatomic, strong) NSString* captchaType;
 @property (nonatomic, strong) NSString* captchaOptionJsonString;
+@property (nonatomic, strong) NSString* captchaCustomStyle;
 @property (nonatomic, strong) WKWebView* webView;
 @property (nonatomic, strong) WKWebViewConfiguration * webViewConfiguration;
 

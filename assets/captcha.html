@@ -61,7 +61,7 @@
       const bridgeOnFailure = (data) => bridgeMethod("onFailure", data);
       const bridgeOnError = (data) => bridgeMethod("onError", data);
 
-      const init = (type, size = {}, optionJsonString) => {
+      const init = (type, size = {}, optionJsonString, customStyle) => {
         let option = JSON.parse(optionJsonString);
         option = Object.assign(option, size, {
           renderTo: "captcha_button",
@@ -97,6 +97,7 @@
             height: ${option.height - 2}px !important;
             line-height: ${option.height - 2}px !important;
           }
+          ${customStyle || ""}
         `);
         styleNode.type = "text/css";
         styleNode.appendChild(styleText);

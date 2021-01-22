@@ -4,8 +4,6 @@ class AliyunCaptchaOption {
   String appKey;
   String scene;
   String language;
-  int width;
-  int height;
   int fontSize;
   bool hideErrorCode;
   Map<String, dynamic> upLang;
@@ -15,8 +13,6 @@ class AliyunCaptchaOption {
     this.appKey,
     this.scene,
     this.language,
-    this.width,
-    this.height,
     this.fontSize,
     this.hideErrorCode,
     this.upLang,
@@ -28,8 +24,6 @@ class AliyunCaptchaOption {
     if (appKey != null) jsonObject.putIfAbsent("appkey", () => appKey);
     if (scene != null) jsonObject.putIfAbsent("scene", () => scene);
     if (language != null) jsonObject.putIfAbsent("language", () => language);
-    if (width != null) jsonObject.putIfAbsent("width", () => width);
-    if (height != null) jsonObject.putIfAbsent("height", () => height);
     if (fontSize != null) jsonObject.putIfAbsent("fontSize", () => fontSize);
     if (hideErrorCode != null)
       jsonObject.putIfAbsent("hideErrorCode", () => hideErrorCode);
