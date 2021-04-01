@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_aliyun_captcha (0.0.1):
+  - flutter_aliyun_captcha (1.0.4):
     - Flutter
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_aliyun_captcha: 83cc50d8ceb753880b941437a9dabb9df5c6e28c
+  flutter_aliyun_captcha: ae5a6d128035eb2075be2a99606bb58bea31cffe
 
 PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
 

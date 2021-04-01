@@ -13,16 +13,16 @@ import 'aliyun_captcha_type.dart';
 import 'constants.dart';
 
 class AliyunCaptchaButton extends StatefulWidget {
-  final AliyunCaptchaController controller;
-  final AliyunCaptchaType type;
-  final AliyunCaptchaOption option;
-  final String customStyle;
-  final Function(dynamic data) onSuccess;
-  final Function(String failCode) onFailure;
-  final Function(String errorCode) onError;
+  final AliyunCaptchaController? controller;
+  final AliyunCaptchaType? type;
+  final AliyunCaptchaOption? option;
+  final String? customStyle;
+  final Function(dynamic data)? onSuccess;
+  final Function(String failCode)? onFailure;
+  final Function(String errorCode)? onError;
 
   AliyunCaptchaButton({
-    Key key,
+    Key? key,
     this.controller,
     this.type,
     this.option,
@@ -39,17 +39,17 @@ class AliyunCaptchaButton extends StatefulWidget {
 class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
   GlobalKey _captchaButtonKey = GlobalKey();
 
-  EventChannel _eventChannel;
-  AliyunCaptchaController _captchaController;
+  EventChannel? _eventChannel;
+  AliyunCaptchaController? _captchaController;
 
-  AliyunCaptchaController get captchaController {
+  AliyunCaptchaController? get captchaController {
     if (widget.controller != null) {
-      return widget.controller;
+      return widget.controller!;
     }
     if (_captchaController == null) {
       _captchaController = AliyunCaptchaController();
     }
-    return _captchaController;
+    return _captchaController!;
   }
 
   @override
@@ -59,14 +59,14 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
     if (oldWidget.type != widget.type ||
         json.encode(oldWidget.option) != json.encode(widget.option) ||
         oldWidget.customStyle != widget.customStyle) {
-      captchaController.refresh(creationParams);
+      captchaController!.refresh(creationParams);
     }
   }
 
   Map<String, dynamic> get creationParams {
-    AliyunCaptchaOption option = widget.option;
+    AliyunCaptchaOption option = widget.option!;
     Map<String, dynamic> creationParams = {
-      'type': widget.type.toValue(),
+      'type': widget.type!.toValue(),
       'optionJsonString': json.encode(option),
       'customStyle': widget.customStyle,
     };
@@ -79,18 +79,18 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
 
     switch (method) {
       case 'onSuccess':
-        if (widget.onSuccess != null) widget.onSuccess(data);
+        if (widget.onSuccess != null) widget.onSuccess!(data);
         break;
       case 'onFailure':
         if (widget.onFailure != null) {
           String failCode = data['failCode'];
-          widget.onFailure(failCode);
+          widget.onFailure!(failCode);
         }
         break;
       case 'onError':
         if (widget.onError != null) {
           String errorCode = data['errorCode'];
-          widget.onError(errorCode);
+          widget.onError!(errorCode);
         }
         break;
     }
@@ -98,15 +98,15 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
 
   void _onPlatformViewCreated(int viewId) {
     if (captchaController != null) {
-      captchaController.initWithViewId(viewId);
+      captchaController!.initWithViewId(viewId);
     }
     _eventChannel = EventChannel(
       '${kAliyunCaptchaButtonEventChannelName}_$viewId',
     );
-    _eventChannel.receiveBroadcastStream().listen(_handleOnEvent);
+    _eventChannel!.receiveBroadcastStream().listen(_handleOnEvent);
 
-    Future.delayed(Duration(milliseconds: 100))
-        .then((value) => captchaController.refresh(null));
+    Future.delayed(Duration(milliseconds: 20))
+        .then((value) => captchaController!.refresh(null));
   }
 
   Widget _buildNativeView(BuildContext context) {

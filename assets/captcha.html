@@ -83,8 +83,9 @@
           window.captcha_button = module.init(option);
         });
 
-        const styleNode = document.createElement("style");
-        const styleText = document.createTextNode(`
+        setTimeout(() => {
+          const styleNode = document.createElement("style");
+          const styleText = document.createTextNode(`
           .nc_scale {
             height: ${option.height}px !important;
           }
@@ -99,9 +100,10 @@
           }
           ${customStyle || ""}
         `);
-        styleNode.type = "text/css";
-        styleNode.appendChild(styleText);
-        document.getElementsByTagName("body")[0].appendChild(styleNode);
+          styleNode.type = "text/css";
+          styleNode.appendChild(styleText);
+          document.getElementsByTagName("body")[0].appendChild(styleNode);
+        }, 100);
       };
 
       window._init = init;

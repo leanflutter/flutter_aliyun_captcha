@@ -8,7 +8,7 @@ extension AliyunCaptchaTypeParseToString on AliyunCaptchaType {
     return this.toString().split('.').last;
   }
 
-  String toValue() {
+  String? toValue() {
     if (this == AliyunCaptchaType.slide) {
       return 'nc';
     } else if (this == AliyunCaptchaType.smart) {
