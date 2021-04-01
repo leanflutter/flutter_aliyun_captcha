@@ -1,3 +1,8 @@
+## 1.0.4
+
+- 空安全支持
+- [#9](https://github.com/leanflutter/flutter_aliyun_captcha/issues/9) 修复偶现滑块显示异常
+
 ## 1.0.3
 
 - [#8](https://github.com/leanflutter/flutter_aliyun_captcha/issues/8) 增加 `customStyle` 属性以支持自定义样式
