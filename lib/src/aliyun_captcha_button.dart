@@ -105,7 +105,7 @@ class _AliyunCaptchaButtonState extends State<AliyunCaptchaButton> {
     );
     _eventChannel.receiveBroadcastStream().listen(_handleOnEvent);
 
-    Future.delayed(Duration(milliseconds: 20))
+    Future.delayed(Duration(milliseconds: 100))
         .then((value) => captchaController.refresh(null));
   }
 

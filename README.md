@@ -38,7 +38,7 @@
 
 ```yaml
 dependencies:
-  flutter_aliyun_captcha: ^1.0.3
+  flutter_aliyun_captcha: ^1.0.4
 ```
 
 您可以从命令行安装软件包：
@@ -150,7 +150,7 @@ String sdkVersion = await AliyunCaptcha.sdkVersion;
 ```
 MIT License
 
-Copyright (c) 2020 LiJianying <lijy91@foxmail.com>
+Copyright (c) 2021 LiJianying <lijy91@foxmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
