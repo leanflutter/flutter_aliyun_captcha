@@ -70,7 +70,8 @@ class FlutterAliyunCaptchaButtonJsInterface {
     }
 }
 
-public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
+public class FlutterAliyunCaptchaButton
+        implements PlatformView, MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
     private final MethodChannel methodChannel;
     private final EventChannel eventChannel;
 
@@ -98,8 +99,7 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
                     captchaType,
                     widgetHeight,
                     captchaOptionJsonString,
-                    captchaCustomStyle
-            );
+                    captchaCustomStyle);
             webView.evaluateJavascript(jsCode, new ValueCallback<String>() {
                 @Override
                 public void onReceiveValue(String value) {
@@ -127,16 +127,17 @@ public class FlutterAliyunCaptchaButton implements PlatformView, MethodChannel.M
         methodChannel = new MethodChannel(messenger, ALIYUN_CAPTCHA_BUTTON_CHANNEL_NAME + "_" + viewId);
         methodChannel.setMethodCallHandler(this);
 
-
         eventChannel = new EventChannel(messenger, ALIYUN_CAPTCHA_BUTTON_EVENT_CHANNEL_NAME + "_" + viewId);
         eventChannel.setStreamHandler(this);
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT,
-                Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL
-        );
+                Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
         this.containerView = new FrameLayout(context);
+        if (!containerView.isHardwareAccelerated()) {
+            this.containerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         this.containerView.setLayoutParams(layoutParams);
 
         this.webView = new WebView(context);
