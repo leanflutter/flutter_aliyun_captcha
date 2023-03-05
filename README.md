@@ -38,7 +38,7 @@
 
 ```yaml
 dependencies:
-  flutter_aliyun_captcha: ^1.0.4
+  flutter_aliyun_captcha: ^1.0.5
 ```
 
 您可以从命令行安装软件包：

@@ -1,3 +1,7 @@
+## 1.0.5
+
+- fix android webview hardware #18
+
 ## 1.0.4
 
 - 空安全支持

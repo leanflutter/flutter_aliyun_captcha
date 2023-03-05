@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_aliyun_captcha/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_aliyun_captcha: ae5a6d128035eb2075be2a99606bb58bea31cffe
 
-PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+PODFILE CHECKSUM: 663715e941f9adb426e33bf9376914006f9ea95b
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.3
